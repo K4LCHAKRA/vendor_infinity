@@ -14,14 +14,13 @@
 # limitations under the License.
 
 # -----------------------------------------------------------------
-# Infinity OTA update package
 
+# Infinity OTA update package
 INFINITY_TARGET_PACKAGE := $(PRODUCT_OUT)/$(INFINITY_VERSION).zip
 
 SHA256 := prebuilts/build-tools/path/$(HOST_PREBUILT_TAG)/sha256sum
 
-.PHONY: bacon
-bacon: $(DEFAULT_GOAL) $(INTERNAL_OTA_PACKAGE_TARGET)
+$(INFINITY_TARGET_PACKAGE): $(INTERNAL_OTA_PACKAGE_TARGET)
 	$(hide) mv -f $(INTERNAL_OTA_PACKAGE_TARGET) $(INFINITY_TARGET_PACKAGE)
 	$(hide) ./vendor/infinity/build/tools/generate_ota_info.sh $(INFINITY_TARGET_PACKAGE)
 	echo -e ${CL_BLD}${CL_RED}"===============================-Compiling complete-==============================="${CL_RED}
@@ -33,3 +32,7 @@ bacon: $(DEFAULT_GOAL) $(INTERNAL_OTA_PACKAGE_TARGET)
 	echo -e ${CL_BLD}${CL_RED}"                    Thanks for trying out Project Infinity X ❤️"${CL_RED}
 	echo ""
 	echo -e ${CL_BLD}${CL_RED}"================================================================================"${CL_RED}
+
+.PHONY: bacon
+bacon: $(INFINITY_TARGET_PACKAGE) $(DEFAULT_GOAL)
+
